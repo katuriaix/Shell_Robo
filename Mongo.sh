@@ -28,6 +28,9 @@ VALIDATE(){
     fi
 }
 
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+
+VALIDATE $? "coped mono.repo"
 
 yum install mongodb-org -y &>> $LOGFILE
 
