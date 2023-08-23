@@ -2,7 +2,7 @@
 
 DATE=$(date +%F)
 LOGSDIR=/tmp
-# /home/centos/Shell_Robo-date.log
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
 LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
@@ -27,74 +27,63 @@ VALIDATE(){
     fi
 }
 
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> $LOGFILE
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
 
-VALIDATE $? " downloded RPM "
+VALIDATE $? "Setting up NPM Source"
 
-yum install nodejs -y &>> $LOGFILE
+yum install nodejs -y &>>$LOGFILE
 
-VALIDATE $? " installed nodejs"
+VALIDATE $? "Installing NodeJS"
 
-useradd roboshop &>> $LOGFILE
-# if [ $? -ne 0 ]; then
-# echo "user already exit"
-# else 
-# echo "user created"
-# fi
-# VALIDATE $? "user created "
+#once the user is created, if you run this script 2nd time
+# this command will defnitely fail
+# IMPROVEMENT: first check the user already exist or not, if not exist then create
+useradd roboshop &>>$LOGFILE
 
-mkdir /app &>> $LOGFILE
-# if [ $? -ne 0 ]; then
-# echo "dir already exit"
-# else 
-# echo "created dir"
-# fi
-# VALIDATE $? " created DIR app"
+#write a condition to check directory already exist or not
+mkdir /app &>>$LOGFILE
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 
-VALIDATE $? " Downloded path"
+VALIDATE $? "downloading catalogue artifact"
 
-cd /app &>> $LOGFILE
+cd /app &>>$LOGFILE
 
-VALIDATE $? "go to /app dir "
+VALIDATE $? "Moving into app directory"
 
-unzip /tmp/catalogue.zip &>> $LOGFILE
+unzip /tmp/catalogue.zip &>>$LOGFILE
 
-VALIDATE $? "Unziped "
+VALIDATE $? "unzipping catalogue"
 
-#cd /app &>> $LOGFILE
+npm install &>>$LOGFILE
 
-#VALIDATE $? " go to /app dir"
+VALIDATE $? "Installing dependencies"
 
-npm install -y &>> $LOGFILE
+# give full path of catalogue.service because we are inside /app
+cp /home/centos/Shell_Robo/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
 
-VALIDATE $? "NPM installed "
+VALIDATE $? "copying catalogue.service"
 
-cp /home/centos/Shell_Robo/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+systemctl daemon-reload &>>$LOGFILE
 
-VALIDATE $? " Coped catalogue service"
+VALIDATE $? "daemon reload"
 
-systemctl daemon-reload &>> $LOGFILE
+systemctl enable catalogue &>>$LOGFILE
 
-VALIDATE $? " Reload daemon"
+VALIDATE $? "Enabling Catalogue"
 
-systemctl enable catalogue &>> $LOGFILE
+systemctl start catalogue &>>$LOGFILE
 
-VALIDATE $? "Enabled catalogu "
+VALIDATE $? "Starting Catalogue"
 
-systemctl start catalogue &>> $LOGFILE
+cp /home/centos/Shell_Robo/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
 
-VALIDATE $? " Started catalog"
+VALIDATE $? "Copying mongo repo"
 
-cp /home/centos/Shell_Robo/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+yum install mongodb-org-shell -y &>>$LOGFILE
 
-VALIDATE $? "coped mongo.repo "
+VALIDATE $? "Installing mongo client"
 
-yum install mongodb-org-shell -y &>> $LOGFILE
+mongo --host mongodb.mongo.katuri395.online </app/schema/catalogue.js &>>$LOGFILE
 
-VALIDATE $? "Installed mongo "
-
-mongo --host mongo.katuri395.online </app/schema/catalogue.js &>> $LOGFILE
-
-VALIDATE $? " connecting mongo"
+VALIDATE $? "loading catalogue data into mongodb"
