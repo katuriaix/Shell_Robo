@@ -35,7 +35,7 @@ yum install nodejs -y &>> $LOGFILE
 
 VALIDATE $? " installed nodejs"
 
-# useradd roboshop &>> $LOGFILE
+useradd roboshop &>> $LOGFILE
 # if [ $? -ne 0 ]; then
 # echo "user already exit"
 # else 
@@ -43,7 +43,7 @@ VALIDATE $? " installed nodejs"
 # fi
 # VALIDATE $? "user created "
 
-#mkdir /app &>> $LOGFILE
+mkdir /app &>> $LOGFILE
 # if [ $? -ne 0 ]; then
 # echo "dir already exit"
 # else 
