@@ -36,7 +36,11 @@ yum install nodejs -y &>> $LOGFILE
 VALIDATE $? " installed nodejs"
 
 useradd roboshop &>> $LOGFILE
-
+if [ $? -ne 0 ]; then
+echo "user already exit"
+else 
+echo "user created"
+fi
 VALIDATE $? "user created "
 
 mkdir /app &>> $LOGFILE
