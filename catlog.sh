@@ -2,7 +2,7 @@
 
 DATE=$(date +%F)
 LOGSDIR=/tmp
-# /home/centos/shellscript-logs/script-name-date.log
+# /home/centos/Shell_Robo-date.log
 SCRIPT_NAME=$0
 LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
@@ -63,7 +63,7 @@ npm install &>> $LOGFILE
 
 VALIDATE $? "NPM installed "
 
-cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /home/centos/Shell_Robo/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? " Coped catalogue service"
 
@@ -79,7 +79,7 @@ systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? " Started catalog"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /home/centos/Shell_Robo/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "coped mongo.repo "
 
