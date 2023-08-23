@@ -35,13 +35,6 @@ yum install nodejs -y &>>$LOGFILE
 
 VALIDATE $? "Installing NodeJS"
 
-#once the user is created, if you run this script 2nd time
-# this command will defnitely fail
-# IMPROVEMENT: first check the user already exist or not, if not exist then create
-#useradd roboshop &>>$LOGFILE
-
-#write a condition to check directory already exist or not
-#mkdir /app &>>$LOGFILE
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 
@@ -92,6 +85,6 @@ yum install mongodb-org-shell -y &>>$LOGFILE
 
 VALIDATE $? "Installing mongo client"
 
-mongo --host mongodb.mongo.katuri395.online </app/schema/catalogue.js &>>$LOGFILE
+#mongo --host mongodb.mongo.katuri395.online </app/schema/catalogue.js &>>$LOGFILE
 
-VALIDATE $? "loading catalogue data into mongodb"
+#VALIDATE $? "loading catalogue data into mongodb"
