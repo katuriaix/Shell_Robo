@@ -38,10 +38,10 @@ VALIDATE $? "Installing NodeJS"
 #once the user is created, if you run this script 2nd time
 # this command will defnitely fail
 # IMPROVEMENT: first check the user already exist or not, if not exist then create
-useradd roboshop &>>$LOGFILE
+#useradd roboshop &>>$LOGFILE
 
 #write a condition to check directory already exist or not
-mkdir /app &>>$LOGFILE
+#mkdir /app &>>$LOGFILE
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 
