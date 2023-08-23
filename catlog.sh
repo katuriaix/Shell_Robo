@@ -67,7 +67,7 @@ cd /app &>> $LOGFILE
 
 VALIDATE $? " go to /app dir"
 
-npm install &>> $LOGFILE
+npm install -y &>> $LOGFILE
 
 VALIDATE $? "NPM installed "
 
