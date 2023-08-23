@@ -63,9 +63,9 @@ unzip /tmp/catalogue.zip &>> $LOGFILE
 
 VALIDATE $? "Unziped "
 
-cd /app &>> $LOGFILE
+#cd /app &>> $LOGFILE
 
-VALIDATE $? " go to /app dir"
+#VALIDATE $? " go to /app dir"
 
 npm install -y &>> $LOGFILE
 
