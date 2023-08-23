@@ -49,6 +49,14 @@ VALIDATE $? "downloading catalogue artifact"
 
 cd /app &>>$LOGFILE
 
+    if [ $1 -ne 0 ];
+    then
+        echo -e "$2 ... $R Created DIR $N"
+        exit 1
+    else
+        echo -e "$2 ... $G Already created exit $N"
+    fi
+
 VALIDATE $? "Moving into app directory"
 
 unzip /tmp/catalogue.zip &>>$LOGFILE
