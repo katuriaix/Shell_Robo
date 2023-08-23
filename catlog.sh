@@ -44,7 +44,11 @@ fi
 VALIDATE $? "user created "
 
 mkdir /app &>> $LOGFILE
-
+if [ $? -ne 0 ]; then
+echo "dir already exit"
+else 
+echo "created dir"
+fi
 VALIDATE $? " created DIR app"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
